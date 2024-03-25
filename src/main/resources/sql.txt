@@ -1,0 +1,51 @@
+-- Create the database
+CREATE DATABASE IF NOT EXISTS spms;
+USE spms;
+
+-- Create the table
+CREATE TABLE players (
+    email VARCHAR(255) NOT NULL,
+    level INT NOT NULL CHECK (level BETWEEN 1 AND 10),
+    age INT NOT NULL,
+    gender ENUM('male', 'female') NOT NULL,
+    PRIMARY KEY (email)
+);
+
+CREATE TABLE sports (
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (name)
+);
+
+CREATE TABLE player_sport (
+    player_email VARCHAR(255) NOT NULL,
+    sport_name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (player_email, sport_name),
+    FOREIGN KEY (player_email) REFERENCES players(email),
+    FOREIGN KEY (sport_name) REFERENCES sports(name)
+);
+
+
+USE spms;
+INSERT INTO players (email, level, age, gender) VALUES 
+('john.doe@example.com', 5, 30, 'male'),
+('jane.smith@example.com', 7, 25, 'female'),
+('alex.jones@example.com', 4, 20, 'male');
+
+INSERT INTO sports (name) VALUES 
+('tennis'),
+('soccer'),
+('basketball');
+
+-- John Doe plays tennis and soccer
+INSERT INTO player_sport (player_email, sport_name) VALUES 
+('john.doe@example.com', 'tennis'),
+('john.doe@example.com', 'soccer');
+
+-- Jane Smith plays tennis and basketball
+INSERT INTO player_sport (player_email, sport_name) VALUES 
+('jane.smith@example.com', 'tennis'),
+('jane.smith@example.com', 'basketball');
+
+-- Alex Jones plays soccer
+INSERT INTO player_sport (player_email, sport_name) VALUES 
+('alex.jones@example.com', 'soccer');

@@ -2,6 +2,7 @@ package com.spms.sports.controller;
 
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.spms.sports.entity.Player;
 import com.spms.sports.service.PlayerService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/players")
@@ -28,6 +36,10 @@ public class PlayerController {
 
     //B-2
     //curl --location 'http://localhost:8080/api/players/no-sport'
+    @Operation(summary = "Get players without associated sports")
+    @ApiResponse(responseCode = "200", description = "Found players",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))})
+    @ApiResponse(responseCode = "204", description = "No players found")    
     @GetMapping("/no-sport")
     public ResponseEntity<List<Player>> getPlayersWithNoSport() {
         List<Player> players = playerService.getPlayersWithNoSport();
@@ -39,8 +51,11 @@ public class PlayerController {
     
     //B-3
     //curl --location --request PUT 'http://192.168.86.250:8080/api/players/player9@example.com/sports' \--header 'Content-Type: application/json' \--data '["Boxing", "Tennis"]'
+    @Operation(summary = "Update a player's sports")
+    @ApiResponse(responseCode = "200", description = "Player's sports updated")
     @PutMapping("/{email}/sports")
-    public ResponseEntity<?> updatePlayerSports(@PathVariable String email, @RequestBody Set<String> sportNames) 
+    public ResponseEntity<?> updatePlayerSports(@Parameter(description = "Email of the player to update") @PathVariable String email, 
+            @RequestBody Set<String> sportNames) 
     {
         playerService.updatePlayerSports(email, sportNames);
         return ResponseEntity.ok().build();
@@ -48,8 +63,14 @@ public class PlayerController {
     
     //B-5
     //curl --location 'http://localhost:8080/api/players?sports=Soccer&sports=Basketball&page=0'
+    @Operation(summary = "Get players filtered by sports")
+    @ApiResponse(responseCode = "200", description = "Players filtered by sports",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))})
     @GetMapping
-    public Page<Player> getPlayers(@RequestParam(required = false) List<String> sports, @RequestParam(defaultValue = "0") int page) {
+    public Page<Player> getPlayers(@RequestParam(required = false) List<String> sports, 
+            @RequestParam(defaultValue = "0") int page) 
+    {
+
         return playerService.getPlayersFilteredBySports(sports, page);
     }
 }

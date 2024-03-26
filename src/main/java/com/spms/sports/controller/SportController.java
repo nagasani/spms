@@ -1,7 +1,6 @@
 package com.spms.sports.controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.spms.sports.entity.Sport;
 import com.spms.sports.service.SportService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/sports")
@@ -24,6 +27,11 @@ public class SportController
 
     //B-1
     //curl --location 'http://localhost:8080/api/sports?names=Soccer&names=Tennis'
+    @Operation(summary = "Get sports by names",
+            description = "Returns a list of sports filtered by the given names")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved list",
+              content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = Sport.class))})
     @GetMapping
     public ResponseEntity<?> getSportsByNames(@RequestParam List<String> names) 
     {
@@ -44,6 +52,9 @@ public class SportController
     
     //B-4
     //curl --location --request DELETE 'http://localhost:8080/api/sports/soccer'
+    @Operation(summary = "Delete a sport by name",
+            description = "Deletes a sport and its associations with players")
+    @ApiResponse(responseCode = "200", description = "Sport deleted successfully")
     @DeleteMapping("/{sportName}")
     public ResponseEntity<?> deleteSport(@PathVariable String sportName) {
         sportService.deleteSportAndAssociations(sportName);

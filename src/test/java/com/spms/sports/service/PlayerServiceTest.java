@@ -46,7 +46,7 @@ public class PlayerServiceTest
     void setUp() 
     {
         // Setup before each test
-        player = new Player("player1@example.com", 5, 25, Gender.MALE, new HashSet<>());
+        player = new Player("player1@example.com", 5, 25, Gender.male, new HashSet<>());
         Sport soccer = new Sport("Soccer");
         Sport tennis = new Sport("Tennis");
         newSports = new HashSet<>(Set.of(soccer, tennis));
@@ -77,8 +77,8 @@ public class PlayerServiceTest
 	public void getPlayersWithNoSportTest() 
 	{
 		// Setup
-        Player player1 = new Player("player1@example.com", 5, 25, Gender.MALE, Set.of());
-        Player player2 = new Player("player2@example.com", 4, 22, Gender.FEMALE, Set.of());
+        Player player1 = new Player("player1@example.com", 5, 25, Gender.male, Set.of());
+        Player player2 = new Player("player2@example.com", 4, 22, Gender.female, Set.of());
 
         List<Player> mockPlayers = Arrays.asList(player1, player2);
         when(playerRepository.findPlayersWithNoSport()).thenReturn(mockPlayers);

@@ -3,6 +3,7 @@ package com.spms.sports.entity;
 import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,14 +12,17 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "sports")
+@Schema(description = "Represents a sport that players can be associated with.")
 public class Sport 
 {
 	@Id
 	@Column(nullable = false)
+	@Schema(description = "Name of the sport, serves as the unique identifier.", example = "Soccer", required = true)    
 	private String name;
 
 	@ManyToMany(mappedBy = "sports")
 	@JsonManagedReference
+	@Schema(description = "Set of players associated with this sport.")    
 	private Set<Player> players = new HashSet<>();
 
 	// Constructor

@@ -3,6 +3,7 @@ package com.spms.sports.entity;
 import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,25 +17,31 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "players")
+@Schema(description = "Represents a player in the sports management system.")
 public class Player 
 {
 	@Id
 	@Column(nullable = false)
+	@Schema(description = "Email of the player, used as the unique identifier.", example = "player@example.com", required = true)
 	private String email;
 
 	@Column(nullable = false)
+	@Schema(description = "Level of the player.", example = "5", required = true)	  
 	private int level;
 
 	@Column(nullable = false)
+	@Schema(description = "Age of the player.", example = "25", required = true)	  
 	private int age;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
+	@Schema(description = "Gender of the player.", example = "MALE", required = true)    
 	private Gender gender;
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "player_sport", joinColumns = @JoinColumn(name = "player_email"), inverseJoinColumns = @JoinColumn(name = "sport_name"))
 	@JsonBackReference
+	@Schema(description = "Sports associated with the player.")    
 	private Set<Sport> sports = new HashSet<>();
 
 	// Constructor

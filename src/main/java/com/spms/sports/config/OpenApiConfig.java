@@ -22,17 +22,8 @@ public class OpenApiConfig {
     @Primary
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Player API")
+                .info(new Info().title("Sports and Player Management API")
                 .description("API for managing players and their associated sports")
                 .version("v1.0.0"));
-    }
-    
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Sports API")
-                        .description("API for managing sports and their associations")
-                        .version("v1"));
-    }
+    }   
 }

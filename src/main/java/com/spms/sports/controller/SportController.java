@@ -1,6 +1,8 @@
 package com.spms.sports.controller;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @RequestMapping("/api/sports")
 public class SportController 
 {
+	private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
     private final SportService sportService;
 
     public SportController(SportService sportService) {
@@ -35,6 +38,7 @@ public class SportController
     @GetMapping
     public ResponseEntity<?> getSportsByNames(@RequestParam List<String> names) 
     {
+    	logger.info("Request received: getSportsByNames "+names);
         try
         {
             List<Sport> sports = sportService.findSportsByNames(names);
@@ -57,6 +61,7 @@ public class SportController
     @ApiResponse(responseCode = "200", description = "Sport deleted successfully")
     @DeleteMapping("/{sportName}")
     public ResponseEntity<?> deleteSport(@PathVariable String sportName) {
+    	logger.info("Request received: deleteSport "+sportName);
         sportService.deleteSportAndAssociations(sportName);
         //return ResponseEntity.noContent().build()
         return ResponseEntity.ok().build();

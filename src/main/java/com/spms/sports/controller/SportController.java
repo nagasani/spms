@@ -18,7 +18,6 @@ public class SportController
 {
     private final SportService sportService;
 
-    @Autowired
     public SportController(SportService sportService) {
         this.sportService = sportService;
     }

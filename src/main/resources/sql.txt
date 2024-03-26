@@ -9,7 +9,7 @@ CREATE TABLE players (
     age INT NOT NULL,
     gender ENUM('male', 'female') NOT NULL,
     PRIMARY KEY (email)
-); 
+);
 
 CREATE TABLE sports (
     name VARCHAR(255) NOT NULL,

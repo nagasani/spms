@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "bookofthemoment.url",
+    "type": "java.lang.String",
+    "description": "A description for 'bookofthemoment.url'"
+  },
+  {
+    "name": "scheduled.rate",
+    "type": "java.lang.Long",
+    "description": "A description for 'scheduled.rate'"
+  }
+]}
